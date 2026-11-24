@@ -1,0 +1,6 @@
+{
+  "cases": [
+    {"id": "case001_adc", "sequence": "ADC", "adc_source": "calculated", "image": "../runs/mri/case001_adc/ADC_raw.nii.gz", "valid_mask": "../runs/mri/case001_adc/ADC_valid.nii.gz", "mask": "case001/dwi_roi.nii.gz", "acquisition_note": "Confirmed corresponding diffusion acquisition and tumor mask."},
+    {"id": "case001_t2", "sequence": "T2", "image": "case001/t2.nii.gz", "mask": "case001/t2_roi.nii.gz", "acquisition_note": "Confirmed same-patient T2 acquisition and tumor mask."}
+  ]
+}

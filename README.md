@@ -1,19 +1,24 @@
 # Radiomics Skill Harness
 
-Six reusable agent skills connect multiparametric MRI, pathology-derived TLS measurements and response prediction. Each skill combines task instructions with executable analysis code.
+Seven reusable agent skills connect multiparametric MRI, pathology-derived TLS measurements and response prediction. Each skill combines task instructions with executable analysis code.
 
 ## Workflow
 
 | Skill | Operation | Output |
 |---|---|---|
-| [MRI preparation](skills/mri-preparation/SKILL.md) | Two-b-value ADC, ROI grid alignment, image/ROI overlays | Images, overlays, QC |
+| [MRI preprocessing](skills/mri-preparation/SKILL.md) | Two-b-value ADC and MRI geometry/signal checks | ADC maps and image QC |
+| [ROI preparation](skills/roi-preparation/SKILL.md) | Existing mask validation, grid alignment and overlays | Aligned ROI and overlay QC |
 | [Radiomics extraction](skills/radiomics-extraction/SKILL.md) | ADC / T1C_ph1 / T1C_ph3 / T2 with a shared YAML | Four feature workbooks |
 | [TLS correlation selection](skills/tls-correlation-selection/SKILL.md) | Pearson p < 0.05 and absolute r > 0.1 | Candidate features and all tests |
 | [TLS feature reduction](skills/tls-feature-reduction/SKILL.md) | BH-adjusted evidence and bootstrap stability | Reduced feature subsets |
 | [Internal model development](skills/internal-model-development/SKILL.md) | Stratified 70% training / 30% validation, TabPFN | Frozen model and held-out predictions |
 | [External model validation](skills/external-model-validation/SKILL.md) | Apply the same frozen model to each independent center | Center-specific predictions and metrics |
 
-Keep the `skills/` directories together: correlation/reduction share a runner, and development/external validation share model utilities. An agent reads the relevant `SKILL.md`, prepares its local inputs, invokes the script and checks its outputs. MRI alignment review is a human handoff.
+Keep the `skills/` directories together: MRI/ROI share image utilities, correlation/reduction share a runner, and development/external validation share model utilities. An agent reads the relevant `SKILL.md`, prepares its local inputs, invokes the script and checks its outputs. Image and ROI review are human handoffs.
+
+Figure mapping: **MRI Preprocess -> ROI Preparation/QC -> Extract -> Select -> Reduce -> Model -> Validate**. ROI preparation uses supplied tumor segmentations.
+
+Updating a six-skill installation: replace the existing source files and add `skills/roi-preparation/`. MRI manifests no longer contain masks; move overlay entries to a separate ROI manifest. Calculated ADC must pass its `ADC_valid.nii.gz` to the ROI step. See the [MRI migration notes](skills/mri-preparation/references/protocol.md#updating-from-the-combined-skill).
 
 ## Installation
 
@@ -33,7 +38,8 @@ PyRadiomics may require a C compiler (Windows: C++ build tools and SDK). The req
 Prepare local manifests from the skill assets. Read the [TLS schema](skills/tls-correlation-selection/references/tls-schema.md) and [model input contract](skills/internal-model-development/references/input-contract.md). Output directories must be new.
 
 ```sh
-python skills/mri-preparation/scripts/prepare_mri.py data/mri_manifest.json --output runs/prepared
+python skills/mri-preparation/scripts/prepare_mri.py data/mri_manifest.json --output runs/mri
+python skills/roi-preparation/scripts/prepare_roi.py data/roi_manifest.json --output runs/roi
 python skills/radiomics-extraction/scripts/extract.py data/extraction_manifest.json --yaml skills/radiomics-extraction/assets/legacy_mr.yaml --output runs/extracted
 python skills/tls-feature-reduction/scripts/select_tls_features.py --stage legacy --features runs/extracted --tls data/private_tls.xlsx --output runs/legacy
 python skills/tls-feature-reduction/scripts/select_tls_features.py --stage reduced --features runs/extracted --tls data/private_tls.xlsx --output runs/reduced

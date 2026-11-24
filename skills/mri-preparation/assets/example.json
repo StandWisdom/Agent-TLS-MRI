@@ -1,0 +1,6 @@
+{
+  "cases": [
+    {"id": "case001_adc", "mode": "adc", "sequence": "ADC", "low": "case001/b0.nii.gz", "high": "case001/b800.nii.gz", "b_low": 0, "b_high": 800, "acquisition_note": "Confirmed b-values, matching signal scaling and acquisition alignment."},
+    {"id": "case001_t2", "mode": "image", "sequence": "T2", "image": "case001/t2.nii.gz", "acquisition_note": "Confirmed same-patient pre-treatment T2 acquisition."}
+  ]
+}
