@@ -1,6 +1,0 @@
-{
-  "cases": [
-    {"id": "case001_adc", "mode": "adc", "sequence": "ADC", "low": "data/case001/b0.nii.gz", "high": "data/case001/b800.nii.gz", "mask": "data/case001/dwi_roi.nii.gz", "b_low": 0, "b_high": 800, "acquisition_note": "Replace with verified protocol, scaling and alignment evidence."},
-    {"id": "case001_t2", "mode": "overlay", "sequence": "T2", "image": "data/case001/t2.nii.gz", "mask": "data/case001/t2_roi.nii.gz", "acquisition_note": "Replace with confirmed same-patient T2 and ROI provenance."}
-  ]
-}

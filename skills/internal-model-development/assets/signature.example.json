@@ -1,8 +1,0 @@
-{
-  "origin": "independent_tls_discovery",
-  "features": [
-    "ADC::original_firstorder_Mean",
-    "T1C_ph3::original_firstorder_Mean",
-    "T2::original_firstorder_Mean"
-  ]
-}
