@@ -1,7 +1,0 @@
-# Verified on Windows, Python 3.11.9; not a complete cross-platform environment lock.
-numpy==1.26.4
-SimpleITK==2.5.5
-pandas==3.0.3
-openpyxl==3.1.5
-PyYAML==6.0.3
-PyRadiomics==3.0.1
